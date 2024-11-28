@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block parte_central %}
+<form method="post">
+  {% csrf_token %}
+  {{ form }}
+  <button>Enviar</button>
+</form>
+{% if categoria_id %}
+<form action="{% url 'gerencia:excluir_categoria' categoria_id %}">
+  <button>deletar</button>
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block parte_central %}
+<form action="" method="get">
+  {{ formularioFiltro }}
+  <button>Filtrar</button>
+</form>
+
+<a href="{% url 'gerencia:cadastro_categoria' %}">Adicionar</a>
+
+<table>
+  <thead>
+    <th>Id</th>
+    <th>Nome</th>
+    <th>🗒️</th>
+    <th>🗑️</th>
+  </thead>
+  <tbody>
+    {% for categoria in categorias %}
+    <tr>
+      <th>{{ categoria.id }}</th>
+      <th>{{ categoria.nome }}</th>
+      <th><a href="{% url 'gerencia:editar_categoria' categoria.id %}">editar</a></th>
+      <th><a href="{% url 'gerencia:excluir_categoria' categoria.id %}">excluir</a></th>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<style>
+  th, thead {
+    width: 200px;
+    outline: 1px solid black ;
+  }
+</style>
+{% endblock %}
+

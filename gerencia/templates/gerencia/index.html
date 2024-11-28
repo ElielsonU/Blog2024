@@ -8,7 +8,7 @@
                 <div class="col-lg-8">
                     <!-- Featured blog post-->
                         <div class="card mb-4">
-                            <a href="#!"><img class="card-img-top" src={{ noticias.0.image.url  }} alt="..." /></a>
+                            <a href="#!"><img class="card-img-top" src="{{ noticias.0.image.url  }}" alt="..." /></a>
                             <div class="card-body">
                                 <div class="small text-muted">{{noticias.0.data_publicacao}}</div>
                                 <h2 class="card-title">{{noticias.0.titulo}}</h2>
@@ -57,16 +57,17 @@
                 <div class="card mb-4">
                     <div class="card-header">Search</div>
                     <div class="card-body">
+                        <a href="{% url 'index' %}">Reset search</a>
                         <form method="get" action=".">
                             <div class="input-group">
                                 <input 
                                     class="form-control" 
                                     type="text" 
-                                    name="search" 
+                                    name="categoria" 
                                     placeholder="Enter search term..." 
                                     aria-label="Enter search term..." 
                                     aria-describedby="button-search" 
-                                    value="{{ search_query|default:'' }}"  
+                                    value="{{ categoria_selecionada|default:'' }}"  
                                 />
                                 <button class="btn btn-primary" id="button-search" type="submit">Go!</button>
                             </div>
@@ -76,14 +77,18 @@
 
                 <!-- Categories widget-->
                 <div class="card mb-4">
-                    <div class="card-header">Categories</div>
+                    <div class="card-header">
+                        Categories 
+                        <a href="{% url 'gerencia:cadastro_categoria' %}">Add</a>
+                        - page: {{ page.number }} 
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
                                 <ul class="list-unstyled mb-0">
-                                    {% for categoria in categorias %}
+                                    {% for categoria in page %}
                                         <li>
-                                            <a href="?categoria={{ categoria.nome }}">
+                                            <a href="{% url 'gerencia:editar_categoria' categoria.id %}">
                                                 {{ categoria.nome }}
                                             </a>
                                         </li>
@@ -91,6 +96,12 @@
                                 </ul>
                             </div>
                         </div>
+                        {% if page.has_previous %}
+                        <a href="?page={{ page.previous_page_number }}&categoria={{ categoria_selecionada|default:'' }}"><button type="button"><</button></a>
+                        {% endif %}
+                        {% if page.has_next %}
+                        <a href="?page={{ page.next_page_number }}&categoria={{ categoria_selecionada|default:'' }}"><button type="button">></button></a>
+                        {% endif %}
                     </div>
                 </div>
                
